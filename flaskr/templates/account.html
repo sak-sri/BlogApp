@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="container">
+    <div class="row w-75" >
+   <div style="background-color: #ffffff">
+        <img src={{image_file}} style="padding-left: 80px;">
+        <br>
+        <div>Username:<span style="font-weight:bold;"> {{current_user.username}}</span></div>
+        <div>Email:<span style="font-weight: bold;"> {{current_user.email}}</span></div>
+        {% if current_user.about!="" %}
+        <div>About:<span class="text-info">{{current_user.about}}</span></div>
+        {% endif %}
+        <div class="content-section mt-4">
+            <form method="POST" action="" enctype="multipart/form-data">
+                {{form.hidden_tag()}}
+                <fieldset class="form-group">
+                    <legend>Account Info</legend>
+                <div class="form-group" > 
+                    <div>
+                    {{ form.username.label(class="form-control-label") }}
+                        {% if form.username.errors %}
+                        {{form.username(class="form-control is-invalid")}}
+                        <div class="invalid-feedback">
+                            {% for err in form.username.errors %}
+                            {{ err }}
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                            {{ form.username(class="form-control") }}
+                        {% endif %}
+                        </div>
+                    </div>
+                <div class="form-group" >
+                    <div>
+                    {{ form.email.label(class="form-control-label") }}
+                        {% if form.email.errors %}
+                        {{ form.email(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for err in form.email.errors %}
+                            <span>{{err}}<span>
+                            {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.email(class="form-control") }}
+                        {% endif %}
+                     </div>
+                </div>
+                <div class="form-group" >
+                    <div>
+                    {{ form.about.label(class="form-control-label") }}
+                        {% if form.about.errors %}
+                        {{ form.about(class="form-control is-invalid") }}
+                        <div class="invalid-feedback">
+                            {% for err in form.about.errors %}
+                            <span>{{err}}<span>
+                            {% endfor %}
+                            </div>
+                            {% else %}
+                            {{ form.about(class="form-control") }}
+                        {% endif %}
+                     </div>
+                </div>
+                <div class="form-group">
+                    <div>
+                        {{form.picture.label(class="form-control-label")}}
+                        {{form.picture(class="form-control-file")}}
+                        {% if form.picture.errors %}
+                        {% for err in form.picture.errors%}
+                        <span class="text-danger">{{err}}</span><br>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                     </div>
+                   </fieldset>
+                   <div class="form-group">
+                       <div>
+                    {{ form.submit(class="btn btn-outline-info") }}
+                    </div>
+                    </div>
+                </form>
+        </div>
+
+   </div>
+  
+</div>
+{% endblock content %}

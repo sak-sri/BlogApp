@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container">
+    {% for post in posts.items %}
+    <div class="row w-75 border" style="background-color: #ffffff;">
+        <div class="col-lg-5">
+            <img src="{{url_for('static',filename='profile_pics/'+post.author.image_file)}}">
+            <div class="mt-4">
+                <ul style="list-style-type: none">
+                    <li style="font-weight:bold;font-style: italic;">
+                       Posted by:<a href="{{url_for('userpost',username=post.author.username)}}">{{post.author.username}}</a>
+                    </li>
+                    <li style="font-weight: bold;font-style: italic;">
+                       Posted on: {{post.date_posted.strftime('%Y-%m-%d')}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <h3><i><a href="{{url_for('post',post_id=post.id)}}">{{post.title}}</a></i></h3>
+            <p>
+                {{post.content}}
+            </p>
+        </div>
+    </div>
+{% endfor %}
+{% for page_num in posts.iter_pages(left_edge=1,right_edge=1,left_current=1,right_current=2) %}
+{% if page_num %}
+{% if posts.page==page_num %}
+<a class="btn btn-info mb-4" href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
+{% else %}
+<a class="btn btn-outline-info mb-4" href="{{url_for('home',page=page_num)}}">{{page_num}}</a>
+{% endif %}
+{% else %}
+...
+{% endif %}
+{% endfor %}
+</div>
+{% endblock content %}
