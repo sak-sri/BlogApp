@@ -10,7 +10,7 @@ from PIL import Image
 @app.route("/")
 def home():
     page=request.args.get('page',1,type=int)
-    posts=Post.query.order_by(Post.date_posted.desc()).paginate(page=page,per_page=5)
+    posts=Post.query.order_by(Post.date_posted.desc()).paginate(page=page,per_page=3)
     return render_template("home.html",title='Home',posts=posts)
 
 @app.route("/register",methods=["GET","POST"])
@@ -95,7 +95,6 @@ def newpost():
         post=Post(title=form.title.data,content=form.content.data,author=current_user)
         db.session.add(post)
         db.session.commit()
-        flash('Your Post has been Created','success')
         return redirect(url_for('home'))
     return render_template('create_post.html',title='New Post',form=form,legend='Create Post')
 
@@ -115,7 +114,6 @@ def update_post(post_id):
         post.title=form.title.data
         post.content=form.content.data
         db.session.commit()
-        flash("Your Post has been Updated",'success')
         return redirect(url_for('post',post_id=post.id))
     elif(request.method=='GET'):
         form.content.data=post.content
@@ -130,7 +128,6 @@ def deletepost(post_id):
         abort(403)
     db.session.delete(post)
     db.session.commit()
-    flash('Your Post has been Deleted','success')
     return redirect(url_for('home'))
 
 @app.route("/user/<string:username>")
